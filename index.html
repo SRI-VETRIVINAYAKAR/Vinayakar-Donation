@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vinayagar Kovil Donation Manager</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f2f2f2; padding:20px; }
+    .container { max-width:700px; margin:auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1);}    
+    h2 { text-align:center; color:#d35400; }
+    input, button { width:100%; padding:8px; margin-top:8px; }
+    button { background:#27ae60; color:#fff; border:none; border-radius:5px; cursor:pointer; }
+    table { width:100%; border-collapse:collapse; margin-top:15px; }
+    th, td { border:1px solid #ccc; padding:8px; text-align:center; }
+    th { background:#f9e79f; }
+    .total { margin-top:15px; font-size:18px; text-align:center; color:#2c3e50; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>🙏 விநாயகர் கோவில் நிதி மேலாண்மை 🙏</h2>
+
+  <input type="text" id="name" placeholder="பெயர்">
+  <input type="number" id="amount" placeholder="தொகை (₹)">
+  <input type="date" id="date" placeholder="தேதி">
+  <button onclick="addDonation()">Add Donation</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>எண்</th>
+        <th>பெயர்</th>
+        <th>தொகை (₹)</th>
+        <th>தேதி</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="list"></tbody>
+  </table>
+
+  <div class="total" id="total">மொத்த தொகை: ₹ 0</div>
+</div>
+
+<script>
+let total = 0;
+let count = 0;
+
+function addDonation(){
+  const name = document.getElementById('name').value;
+  const amount = Number(document.getElementById('amount').value);
+  const date = document.getElementById('date').value;
+  
+  if(name && amount && date){
+    count++;
+    total += amount;
+
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${count}</td><td>${name}</td><td>${amount}</td><td>${date}</td><td><button onclick='deleteDonation(this, ${amount})'>Delete</button></td>`;
+
+    document.getElementById('list').appendChild(row);
+    document.getElementById('total').innerText = `மொத்த தொகை: ₹ ${total}`;
+
+    // Clear inputs
+    document.getElementById('name').value = '';
+    document.getElementById('amount').value = '';
+    document.getElementById('date').value = '';
+  } else {
+    alert('பெயர், தொகை மற்றும் தேதியை உள்ளிடவும்');
+  }
+}
+
+function deleteDonation(button, amount){
+  button.parentElement.parentElement.remove();
+  total -= amount;
+  document.getElementById('total').innerText = `மொத்த தொகை: ₹ ${total}`;
+}
+</script>
+</body>
+</html>
